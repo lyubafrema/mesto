@@ -4,9 +4,29 @@
   width: 24px;
   height: 24px;
   padding: 0;
-  margin: 8px 0 0 0;
+  margin: 0;
   align-self: center;
   cursor: pointer;
+  transition: opacity 0.1s ease-in-out;
+  position: absolute;
+  top: 37px;
+  right: -42px;
+}
+
+.edit-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 917px) {
+  .edit-button {
+    top: 166px;
+  }
+}
+
+@media screen and (max-width: 618px) {
+  .edit-button {
+    top: 166px;
+  }
 }
 
 @media screen and (max-width: 618px) {
@@ -14,6 +34,7 @@
     width: 18px;
     height: 18px;
     background-size: 7.5px;
-    margin-top: 2px;
+    top: 156px;
+    right: -28px;
   }
 }
