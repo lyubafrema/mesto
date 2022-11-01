@@ -17,7 +17,6 @@
   <div class="page">
     <header class="header">
       <img class="header__logo" src="./images/header-logo.svg" alt="Надпись: Mesto Russia, логотип проекта.">
-      <div class="header__line"></div>
     </header>
     <main class="content">
       <section class="profile">
@@ -27,51 +26,51 @@
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <p class="profile__caption">Исследователь океана</p>
           </div>
-          <button class="edit-button"></button>
+          <button type="button" class="profile__edit-button"></button>
         </div>
-        <button class="add-button"></button>
+        <button type="button" class="profile__add-button"></button>
       </section>
       <section class="elements">
         <article class="element">
           <img class="element__image" src="./images/karachaevsk.jpg" alt="Древний храм в горах.">
           <div class="element__container">
             <h2 class="element__title">Карачаевск</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
         <article class="element">
           <img class="element__image" src="./images/elbrus.png" alt="Гора Эльбрус вдалеке на закате.">
           <div class="element__container">
             <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
         <article class="element">
           <img class="element__image" src="./images/dombay.png" alt="Вид на вершину горы на Домбае.">
           <div class="element__container">
             <h2 class="element__title">Домбай</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
         <article class="element">
           <img class="element__image" src="./images/elbrus.png" alt="Гора Эльбрус вдалеке на закате.">
           <div class="element__container">
             <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
         <article class="element">
           <img class="element__image" src="./images/dombay.png" alt="Вид на вершину горы на Домбае.">
           <div class="element__container">
             <h2 class="element__title">Домбай</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
         <article class="element">
           <img class="element__image" src="./images/karachaevsk.jpg" alt="Древний храм в горах.">
           <div class="element__container">
             <h2 class="element__title">Карачаево-Черкесия</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </article>
       </section>
@@ -81,12 +80,13 @@
     </footer>
     <div class="popup">
       <div class="popup__container">
-        <button class="popup__close-button"></button>
+        <button type="button" class="popup__close-button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="form" name="edit-profile" method="get">
-          <input type="text" name="form__input-name" value="Жак-Ив Кусто" class="form__input-name">
-          <input type="text" name="form__input-caption" value="Исследователь океана" class="form__input-caption">
-          <button class="form__save-button">Сохранить</button>
+          <input type="text" name="popup__input-name" value="Жак-Ив Кусто" class="popup__input popup__input_type_name">
+          <input type="text" name="popup__input-caption" value="Исследователь океана"
+            class="popup__input popup__input_type_caption">
+          <button type="submit" class="form__save-button">Сохранить</button>
         </form>
       </div>
     </div>

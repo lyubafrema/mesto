@@ -1,11 +1,10 @@
-let editElem = document.querySelector('.edit-button');
+let editElem = document.querySelector('.profile__edit-button');
 let popupElem = document.querySelector('.popup');
-let nameInput = document.querySelector('.form__input-name');
-let captionInput = document.querySelector('.form__input-caption');
+let nameInput = document.querySelector('.popup__input_type_name');
+let captionInput = document.querySelector('.popup__input_type_caption');
 let nameProfile = document.querySelector('.profile__name');
 let captionProfile = document.querySelector('.profile__caption');
 let formElem = document.querySelector('.form');
-let saveElem = document.querySelector('.form__save-button');
 
 let onOpen = function (popup) {
   popup.classList.add('popup_opened');
