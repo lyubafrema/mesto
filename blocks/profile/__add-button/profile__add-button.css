@@ -2,9 +2,9 @@
   background: url(../../../images/add-button-logo.svg) no-repeat center / 22px;
   outline: none;
   border: none;
-  border-style: none;
-  border-width: 0;
-  border: 2px solid #FFFFFF;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #FFFFFF;
   border-radius: 2px;
   width: 150px;
   height: 50px;
