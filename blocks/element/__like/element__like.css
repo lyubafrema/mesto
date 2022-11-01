@@ -5,4 +5,10 @@
   height: 19px;
   margin: 5px 5px 0 0;
   padding: 0;
+  transform: opacity 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.element__like:hover {
+  opacity: 0.5;
 }

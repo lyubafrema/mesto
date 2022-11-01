@@ -11,8 +11,8 @@
   border: none;
   margin: 48px 0 0 0;
   padding: 0;
-  cursor: pointer;
   transition: opacity 0.1s ease-in-out;
+  cursor: pointer;
 }
 
 .form__save-button:hover {
