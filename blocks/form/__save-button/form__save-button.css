@@ -24,11 +24,6 @@
     font-size: 14px;
     line-height: 17px;
     min-height: 46px;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .form__save-button {
     margin: 45px 0 0 0;
   }
 }
