@@ -23,29 +23,34 @@ const cardContainer = document.querySelector('.elements');
 
 const elements = [
   {
-    title: 'Карачаевск',
-    src: './images/karachaevsk.jpg',
-    alt: ''
+    title: 'Иваново',
+    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+    alt: 'Панельные дома, вечер, свет в окнах.'
+  },
+  {
+    title: 'Байкал',
+    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+    alt: 'Скалы во льдах на берегу озера Байкал.'
+  },
+  {
+    title: 'Холмогорский район',
+    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+    alt: 'Уходящие в даль рельсы в лесу.'
   },
   {
     title: 'Гора Эльбрус',
-    src: './images/elbrus.png'
+    src: './images/elbrus.png',
+    alt: 'Вид на гору на закате.'
   },
   {
     title: 'Домбай',
-    src: './images/dombay.png'
-  },
-  {
-    title: 'Гора Эльбрус',
-    src: './images/elbrus.png'
-  },
-  {
-    title: 'Домбай',
-    src: './images/dombay.png'
+    src: './images/dombay.png',
+    alt: 'Заснеженный горный пик.'
   },
   {
     title: 'Карачаево-Черкесия',
-    src: './images/karachaevsk.jpg'
+    src: './images/karachaevsk.jpg',
+    alt: 'Развалины древнего храма в горах.'
   },
 ];
 
@@ -150,15 +155,21 @@ const createCard = (card) => {
   const cardLikeBtn = newCard.querySelector('.element__like');
   cardLikeBtn.addEventListener('click', handlerCardLike);
 
+  //открытие попапа с большой картинкой
+
   cardImage.addEventListener('click', () => {
     onOpen(popupBigImageElem);
+    renderBigCardImage(card);
+  });
+
+  const renderBigCardImage = (card) => {
     const bigCardImage = document.querySelector('.big-image__image');
-    bigCardImage.src = cardImage.src;
-    bigCardImage.alt = cardImage.alt;
+    bigCardImage.src = card.src;
+    bigCardImage.alt = card.alt;
 
     const bidCardTitle = document.querySelector('.big-image__title');
-    bidCardTitle.textContent = cardTitle.textContent;
-  });
+    bidCardTitle.textContent = card.title;
+  }
 
   return newCard;
 }
