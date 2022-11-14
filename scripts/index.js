@@ -1,6 +1,9 @@
+//--------Глобальные переменные--------
+
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 
+const popupAll = document.querySelectorAll('.popup');
 const popupEditElem = document.querySelector('.popup_type_edit-profile');
 const popupAddElem = document.querySelector('.popup_type_add-card');
 const popupBigImageElem = document.querySelector('.popup_type_big-image');
@@ -19,40 +22,13 @@ const formAddElem = document.querySelector('.form_add-card');
 
 const cardContainer = document.querySelector('.elements');
 
-//массив карточек
+const bigCardImage = document.querySelector('.big-image__image');
+const bidCardTitle = document.querySelector('.big-image__title');
 
-const elements = [
-  {
-    title: 'Иваново',
-    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-    alt: 'Панельные дома, вечер, свет в окнах.'
-  },
-  {
-    title: 'Байкал',
-    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-    alt: 'Скалы во льдах на берегу озера Байкал.'
-  },
-  {
-    title: 'Холмогорский район',
-    src: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-    alt: 'Уходящие в даль рельсы в лесу.'
-  },
-  {
-    title: 'Гора Эльбрус',
-    src: './images/elbrus.png',
-    alt: 'Вид на гору на закате.'
-  },
-  {
-    title: 'Домбай',
-    src: './images/dombay.png',
-    alt: 'Заснеженный горный пик.'
-  },
-  {
-    title: 'Карачаево-Черкесия',
-    src: './images/karachaevsk.jpg',
-    alt: 'Развалины древнего храма в горах.'
-  },
-];
+//шаблон карточки
+const elementTemplate = document.querySelector('#element-template').content.querySelector('.element');
+
+//--------Объявление функций--------
 
 //функцмия открытия попапа
 
@@ -66,51 +42,6 @@ const onClose = (popup) => {
   popup.classList.remove('popup_opened');
 }
 
-//открытие попапов по кнопке
-
-editBtn.addEventListener('click', () => {
-  onOpen(popupEditElem);
-  nameInput.value = nameProfile.textContent;
-  captionInput.value = captionProfile.textContent;
-});
-
-addBtn.addEventListener('click', () => {
-  onOpen(popupAddElem);
-});
-
-//закрытие попапа редактирования на кнопку и оверлей
-
-popupEditElem.addEventListener('click', function (event) {
-  const isOverlay = event.target.classList.contains('popup_opened');
-  const isClose = event.target.classList.contains('popup__close-button');
-
-  if (isClose || isOverlay) {
-    onClose(popupEditElem);
-  }
-});
-
-//закрытие попапа добавления на кнопку и оверлей
-
-popupAddElem.addEventListener('click', function (event) {
-  const isOverlay = event.target.classList.contains('popup_opened');
-  const isClose = event.target.classList.contains('popup__close-button');
-
-  if (isClose || isOverlay) {
-    onClose(popupAddElem);
-  }
-});
-
-//закрытие попапа большой картинки на кнопку и оверлей
-
-popupBigImageElem.addEventListener('click', function (event) {
-  const isOverlay = event.target.classList.contains('popup_opened');
-  const isClose = event.target.classList.contains('popup__close-button');
-
-  if (isClose || isOverlay) {
-    onClose(popupBigImageElem);
-  }
-});
-
 //сохранение данных профиля
 
 const handlerFormEditSubmit = (evt) => {
@@ -119,11 +50,6 @@ const handlerFormEditSubmit = (evt) => {
   captionProfile.textContent = captionInput.value;
   onClose(popupEditElem);
 }
-formEditElem.addEventListener('submit', handlerFormEditSubmit);
-
-//шаблон карточки
-
-const elementTemplate = document.querySelector('#element-template').content.querySelector('.element');
 
 //удаление карточки
 
@@ -135,6 +61,14 @@ const handlerCardDelete = (evt) => {
 
 const handlerCardLike = (evt) => {
   evt.target.classList.toggle('element__like_active');
+}
+
+//сборка попапа с большой картинкой
+
+const renderBigCardImage = (card) => {
+  bigCardImage.src = card.src;
+  bigCardImage.alt = card.alt;
+  bidCardTitle.textContent = card.title;
 }
 
 //создание карточки
@@ -158,18 +92,9 @@ const createCard = (card) => {
   //открытие попапа с большой картинкой
 
   cardImage.addEventListener('click', () => {
-    onOpen(popupBigImageElem);
     renderBigCardImage(card);
+    onOpen(popupBigImageElem);
   });
-
-  const renderBigCardImage = (card) => {
-    const bigCardImage = document.querySelector('.big-image__image');
-    bigCardImage.src = card.src;
-    bigCardImage.alt = card.alt;
-
-    const bidCardTitle = document.querySelector('.big-image__title');
-    bidCardTitle.textContent = card.title;
-  }
 
   return newCard;
 }
@@ -181,7 +106,6 @@ const handlerFormAddSubmit = (evt) => {
   renderCard({ title: titleInput.value, src: srcInput.value })
   onClose(popupAddElem);
 }
-formAddElem.addEventListener('submit', handlerFormAddSubmit);
 
 //добавление карточки
 
@@ -189,8 +113,47 @@ const renderCard = (card) => {
   cardContainer.prepend(createCard(card));
 };
 
+//-------Слушатели событий--------
+
+//открытие попапов по кнопке
+
+editBtn.addEventListener('click', () => {
+  onOpen(popupEditElem);
+  nameInput.value = nameProfile.textContent;
+  captionInput.value = captionProfile.textContent;
+});
+
+addBtn.addEventListener('click', () => {
+  formAddElem.reset();
+  onOpen(popupAddElem);
+});
+
+//сохранение данных профиля
+
+formEditElem.addEventListener('submit', handlerFormEditSubmit);
+
+//сохранение карточки
+
+formAddElem.addEventListener('submit', handlerFormAddSubmit);
+
+
+//--------Вызов функций и запуск циклов при загрузке страницы--------
+
 //рендеринг всех карточек
 
 elements.forEach((card) => {
   renderCard(card);
+});
+
+//закрытие попапа на кнопку и оверлей
+
+popupAll.forEach((item) => {
+  item.addEventListener('click', (evt) => {
+    const isOverlay = evt.target.classList.contains('popup_opened');
+    const isClose = evt.target.classList.contains('popup__close-button');
+
+    if (isClose || isOverlay) {
+      onClose(item);
+    }
+  });
 });
