@@ -30,20 +30,26 @@ const elementTemplate = document.querySelector('#element-template').content.quer
 
 //--------Объявление функций--------
 
-//функцмия открытия попапа
-
+//открытие попапа
 const onOpen = (popup) => {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeOnEsc);
+}
+
+//закрытие попапа на esc
+const closeOnEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    document.querySelector('.popup_opened').classList.remove('popup_opened');
+  }
 }
 
 //закрытие попапа
-
 const onClose = (popup) => {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeOnEsc);
 }
 
 //сохранение данных профиля
-
 const handlerFormEditSubmit = (evt) => {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
@@ -52,19 +58,16 @@ const handlerFormEditSubmit = (evt) => {
 }
 
 //удаление карточки
-
 const handlerCardDelete = (evt) => {
   evt.target.closest('.element').remove();
 }
 
 //лайк
-
 const handlerCardLike = (evt) => {
   evt.target.classList.toggle('element__like_active');
 }
 
 //сборка попапа с большой картинкой
-
 const renderBigCardImage = (card) => {
   bigCardImage.src = card.src;
   bigCardImage.alt = card.alt;
@@ -72,7 +75,6 @@ const renderBigCardImage = (card) => {
 }
 
 //создание карточки
-
 const createCard = (card) => {
   const newCard = elementTemplate.cloneNode(true);
 
@@ -90,7 +92,6 @@ const createCard = (card) => {
   cardLikeBtn.addEventListener('click', handlerCardLike);
 
   //открытие попапа с большой картинкой
-
   cardImage.addEventListener('click', () => {
     renderBigCardImage(card);
     onOpen(popupBigImageElem);
@@ -100,7 +101,6 @@ const createCard = (card) => {
 }
 
 //сохранение карточки
-
 const handlerFormAddSubmit = (evt) => {
   evt.preventDefault();
   renderCard({ title: titleInput.value, src: srcInput.value })
@@ -108,7 +108,6 @@ const handlerFormAddSubmit = (evt) => {
 }
 
 //добавление карточки
-
 const renderCard = (card) => {
   cardContainer.prepend(createCard(card));
 };
@@ -116,7 +115,6 @@ const renderCard = (card) => {
 //-------Слушатели событий--------
 
 //открытие попапов по кнопке
-
 editBtn.addEventListener('click', () => {
   onOpen(popupEditElem);
   nameInput.value = nameProfile.textContent;
@@ -124,29 +122,24 @@ editBtn.addEventListener('click', () => {
 });
 
 addBtn.addEventListener('click', () => {
-  formAddElem.reset();
   onOpen(popupAddElem);
 });
 
 //сохранение данных профиля
-
 formEditElem.addEventListener('submit', handlerFormEditSubmit);
 
 //сохранение карточки
-
 formAddElem.addEventListener('submit', handlerFormAddSubmit);
 
 
 //--------Вызов функций и запуск циклов при загрузке страницы--------
 
 //рендеринг всех карточек
-
 elements.forEach((card) => {
   renderCard(card);
 });
 
 //закрытие попапа на кнопку и оверлей
-
 popupAll.forEach((item) => {
   item.addEventListener('click', (evt) => {
     const isOverlay = evt.target.classList.contains('popup_opened');

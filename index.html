@@ -41,10 +41,17 @@
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form class="form form_edit-profile" name="edit-profile" method="get">
-          <input type="text" name="popup__input-name" value="Жак-Ив Кусто" class="popup__input popup__input_type_name">
-          <input type="text" name="popup__input-caption" value="Исследователь океана"
-            class="popup__input popup__input_type_caption">
+        <form class="form form_edit-profile" name="edit-profile" method="get" novalidate>
+          <div class="popup__input-container popup__input-container_top">
+            <input id="name-input" type="text" name="name" value="Жак-Ив Кусто"
+              class="popup__input popup__input_type_name" minlength="2" maxlength="40" required>
+            <span class="name-input-error popup__input-error"></span>
+          </div>
+          <div class="popup__input-container popup__input-container_bottom">
+            <input id="caption-input" type="text" name="caption" value="Исследователь океана"
+              class="popup__input popup__input_type_caption" minlength="2" maxlength="200" required>
+            <span class="caption-input-error popup__input-error"></span>
+          </div>
           <button type="submit" class="form__save-button">Сохранить</button>
         </form>
       </div>
@@ -53,11 +60,17 @@
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h3 class="popup__title">Новое место</h3>
-        <form class="form form_add-card" name="add-card" method="get">
-          <input type="text" name="popup__input-title" placeholder="Название"
-            class="popup__input popup__input_type_title">
-          <input type="text" name="popup__input-src" placeholder="Ссылка на картинку"
-            class="popup__input popup__input_type_src">
+        <form class="form form_add-card" name="add-card" method="get" novalidate>
+          <div class="popup__input-container popup__input-container_top">
+            <input id="title-input" type="text" name="title" placeholder="Название"
+              class="popup__input popup__input_type_title" minlength="2" maxlength="30" required>
+            <span class="title-input-error popup__input-error"></span>
+          </div>
+          <div class="popup__input-container popup__input-container_bottom">
+            <input id="link-input" type="url" name="link" placeholder="Ссылка на картинку"
+              class="popup__input popup__input_type_src" required>
+            <span class="link-input-error popup__input-error"></span>
+          </div>
           <button type="submit" class="form__save-button">Создать</button>
         </form>
       </div>
@@ -71,6 +84,7 @@
     </div>
   </div>
   <script src="./scripts/initialCards.js" defer></script>
+  <script src="./scripts/validate.js" defer></script>
   <script src="./scripts/index.js" defer></script>
   <template id="element-template">
     <article class="element">

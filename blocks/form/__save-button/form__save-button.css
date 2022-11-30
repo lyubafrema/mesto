@@ -6,13 +6,17 @@
   text-align: center;
   color: #FFFFFF;
   min-height: 50px;
+  width: 100%;
   background-color: #000000;
   border-radius: 2px;
   border: none;
-  margin: 48px 0 0 0;
+  margin: 0;
   padding: 0;
   transition: opacity 0.1s ease-in-out;
   cursor: pointer;
+  position: absolute;
+  top: 186px;
+  left: 0;
 }
 
 .form__save-button:hover {
@@ -24,6 +28,6 @@
     font-size: 14px;
     line-height: 17px;
     min-height: 46px;
-    margin: 45px 0 0 0;
+    top: 204px;
   }
 }
