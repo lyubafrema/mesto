@@ -32,3 +32,5 @@ const elements = [
     alt: 'Развалины древнего храма в горах.'
   },
 ];
+
+export default elements;
