@@ -2,7 +2,7 @@ import elements from './initialCards.js';
 import { config } from './FormValidator.js';
 import { FormValidator } from './FormValidator.js';
 import Card from './Card.js';
-import { editBtn, addBtn, popupAll, popupEditElem, popupAddElem, nameInput, captionInput, titleInput, srcInput, nameProfile, captionProfile, formEditElem, formAddElem, cardContainer } from './constants.js';
+import { editBtn, addBtn, popupAll, popupEditElem, popupAddElem, nameInput, captionInput, titleInput, srcInput, nameProfile, captionProfile, formEditElem, formAddElem, cardContainer, popupBigImageElem, bigCardImage, bidCardTitle } from './constants.js';
 
 //--------Объявление функций--------
 
@@ -25,6 +25,13 @@ const closePopup = (popup) => {
   document.removeEventListener('keydown', closeOnEsc);
 }
 
+//открытие попапа с большой картинкой
+function handleImageClick(title, image) {
+  bidCardTitle.textContent = title;
+  bigCardImage.src = image;
+  openPopup(popupBigImageElem);
+}
+
 //сохранение данных профиля
 const handleFormEditSubmit = (evt) => {
   evt.preventDefault();
@@ -36,9 +43,16 @@ const handleFormEditSubmit = (evt) => {
 //сохранение карточки
 const handleFormAddSubmit = (evt) => {
   evt.preventDefault();
-  renderCard({ title: titleInput.value, src: srcInput.value }, '#element-template')
+  cardContainer.prepend(createCard({ title: titleInput.value, src: srcInput.value }, '#element-template'));
   formAddElem.reset();
   closePopup(popupAddElem);
+}
+
+//создание новой карточки
+const createCard = (item) => {
+  const card = new Card(item, '#element-template', handleImageClick);
+  const cardElement = card.generateElement();
+  return cardElement;
 }
 
 //-------Слушатели событий--------
@@ -76,13 +90,8 @@ popupAll.forEach((item) => {
 });
 
 //рендеринг всех карточек
-const renderCard = (item) => {
-  const card = new Card(item, '#element-template');
-  cardContainer.prepend(card.generateElement());
-}
-
 elements.forEach((item) => {
-  renderCard(item);
+  cardContainer.prepend(createCard(item));
 });
 
 const validationFormAddCard = new FormValidator(config, formAddElem);
@@ -91,4 +100,3 @@ validationFormAddCard.enableValidation();
 const validationFormEditCard = new FormValidator(config, formEditElem);
 validationFormEditCard.enableValidation();
 
-export { openPopup };
