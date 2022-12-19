@@ -78,10 +78,7 @@ export class FormValidator {
     });
   }
 
-  enableValidation = (config) => {
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-    formList.forEach((formElem) => {
-      this._setEventListeners(formElem, config);
-    });
-  }
+  enableValidation() {
+    this._setEventListeners();
+  };
 }
