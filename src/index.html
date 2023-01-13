@@ -10,21 +10,21 @@
     content="Интерактивный сайт, где пользователь может создать свой профиль, добавлять и удалять фотографии в ленту, ставить им лайки.">
   <meta name="keywords" content="место, фотографии">
   <meta name="author" content="Ефремова Любовь">
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="root">
   <div class="page">
     <header class="header">
-      <img class="header__logo" src="./images/header-logo.svg" alt="Надпись: Mesto Russia, логотип проекта.">
+      <img class="header__logo" src=" <%=require('./images/header-logo.svg')%>"
+        alt="Надпись: Mesto Russia, логотип проекта.">
     </header>
     <main class="content">
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="./images/jacques-yves.jpg" alt="Жак-Ив Кусто в красной шапке.">
+          <img class="profile__avatar" src="<%=require('./images/profile-photo.jpg')%>" alt="Жак-Ив Кусто в красной шапке.">
           <div class="profile__container">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <p class="profile__caption">Исследователь океана</p>
+            <h1 class="profile__name">Funricarica</h1>
+            <p class="profile__caption">Удивительные места, которые я хочу посетить</p>
           </div>
           <button type="button" class="profile__edit-button"></button>
         </div>
@@ -83,7 +83,6 @@
       </figure>
     </div>
   </div>
-  <script type="module" src="./scripts/index.js" defer></script>
   <template id="element-template">
     <article class="element">
       <button type="button" class="element__delete"></button>
