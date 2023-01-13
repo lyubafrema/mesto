@@ -1,14 +1,13 @@
 import './index.css';
-import elements from '../components/initialCards.js';
-import { config } from '../components/FormValidator.js';
+import elements from '../utils/data.js';
+import { config } from '../utils/data.js';
 import { FormValidator } from '../components/FormValidator.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import { editBtn, addBtn, popupEditElem, popupAddElem, nameInput, captionInput, nameProfile, captionProfile, formEditElem, formAddElem, cardContainer, popupBigImageElem } from '../components/constants.js';
-
+import { editBtn, addBtn, nameInput, captionInput, formEditElem, formAddElem } from '../utils/elements.js';
 
 // рендеринг начальных 6 карточек
 const cardsList = new Section({
@@ -16,7 +15,7 @@ const cardsList = new Section({
   renderer: (cardItem) => {
     cardsList.addItem(createCard(cardItem));
   },
-}, cardContainer
+}, '.elements'
 );
 cardsList.renderItems();
 
@@ -34,45 +33,47 @@ const validationFormEditCard = new FormValidator(config, formEditElem);
 validationFormEditCard.enableValidation();
 
 // колбэк-функция открытия попапа с картинкой
-function handleImageClick(title, image) {
-  popupWithImage.open(title, image);
+function handleImageClick(title, image, alt) {
+  popupWithImage.open(title, image, alt);
 }
 
 // попап с большой картинкой
-const popupWithImage = new PopupWithImage(popupBigImageElem);
+const popupWithImage = new PopupWithImage('.popup_type_big-image');
 popupWithImage.setEventListeners();
 
 // экземпляр класса UserInfo
-const profileInputValues = new UserInfo({ name: nameProfile, caption: captionProfile });
+const profileInputValues = new UserInfo( '.profile__name', '.profile__caption' );
 
 // попап редактирования профиля
-const popupWithEditForm = new PopupWithForm(popupEditElem, {
-  handleFormSubmit: (formData) => {
-    profileInputValues.setUserInfo(formData);
+const popupWithEditForm = new PopupWithForm('.popup_type_edit-profile', 
+  (inputValues) => {
+    profileInputValues.setUserInfo(inputValues);
     popupWithEditForm.close();
   }
-})
+)
 popupWithEditForm.setEventListeners();
 
 // попап добавления новой картинки
-const popupWithAddForm = new PopupWithForm(popupAddElem, {
-  handleFormSubmit: (formData) => {
-    const card = { title: formData.title, src: formData.link };
+const popupWithAddForm = new PopupWithForm('.popup_type_add-card', 
+  (inputValues) => {
+    const card = { title: inputValues.title, src: inputValues.link, alt: inputValues.title };
     const cardElem = createCard(card);
     cardsList.addItem(cardElem);
     popupWithAddForm.close();
   }
-});
+)
 popupWithAddForm.setEventListeners();
 
 // слушатель на кнопку открытия попапа редактирования профиля
 editBtn.addEventListener('click', () => {
+  validationFormEditCard.resetValidation();
   popupWithEditForm.open();
-  nameInput.value = nameProfile.textContent;
-  captionInput.value = captionProfile.textContent;
+  nameInput.value = profileInputValues.getUserInfo().name;
+  captionInput.value = profileInputValues.getUserInfo().caption;
 });
 
 // слушатель на кнопку открытия попапа добавления новой картинки
 addBtn.addEventListener('click', () => {
+  validationFormAddCard.resetValidation();
   popupWithAddForm.open();
 })

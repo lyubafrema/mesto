@@ -1,16 +1,5 @@
-export const config = ({
-  formSelector: '.form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.form__save-button',
-  inactiveButtonClass: 'form__save-button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  spanErrorClass: '.popup__input-error',
-  errorClass: 'popup__input-error_active',
-});
-
 export class FormValidator {
   constructor(config, formElem) {
-    this._formSelector = config.formSelector;
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._inactiveButtonClass = config.inactiveButtonClass;
@@ -34,7 +23,7 @@ export class FormValidator {
     this._errorElem.classList.remove(this._errorClass);
   }
 
-  _isValid = (input) => {
+  _toggleInputErrorState = (input) => {
     if (!input.validity.valid) {
       this._showInputError(input, input.validationMessage);
     } else {
@@ -58,22 +47,29 @@ export class FormValidator {
     }
   }
 
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((input) => {
+      this._hideInputError(input)
+    });
+  }
+
   _setEventListeners = () => {
     this._inputList = Array.from(this._formElem.querySelectorAll(this._inputSelector));
     this._buttonElement = this._formElem.querySelector(this._submitButtonSelector);
 
-    this._toggleButtonState(this._inputList, this._buttonElement);
+    this._toggleButtonState();
 
     this._formElem.addEventListener('reset', () => {
       setTimeout(() => {
-        this._toggleButtonState(this._inputList, this._buttonElement);
+        this._toggleButtonState();
       }, 0);
     });
 
     this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
-        this._isValid(input);
-        this._toggleButtonState(this._inputList, this._buttonElement);
+        this._toggleInputErrorState(input);
+        this._toggleButtonState();
       });
     });
   }

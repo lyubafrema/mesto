@@ -1,16 +1,18 @@
+// Спасибо за ревью <3
+
 export default class Popup {
   constructor(popupSelector) {
-    this._popupSelector = popupSelector;
+    this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
   }
-  // открытие попапа
+  // открытие попапа 
   open() {
-    this._popupSelector.classList.add('popup_opened');
+    this._popup.classList.add('popup_opened');
     document.addEventListener('keydown', this._handleEscClose);
   }
   // закрытие попапа
   close() {
-    this._popupSelector.classList.remove('popup_opened');
+    this._popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
@@ -22,7 +24,7 @@ export default class Popup {
   }
 
   setEventListeners() {
-    this._popupSelector.addEventListener('click', (evt) => {
+    this._popup.addEventListener('click', (evt) => {
       const isOverlay = evt.target.classList.contains('popup_opened');
       const isClose = evt.target.classList.contains('popup__close-button');
 

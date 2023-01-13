@@ -32,13 +32,16 @@ export default class Card {
     });
 
     this._cardImage.addEventListener('click', () => {
-      this._handleImageClick(this._title, this._image)
+      this._handleImageClick(this._title, this._image, this._alt)
     });
   }
 
   _deleteCard() {
     this._element.remove();
     this._element = null;
+    this._likeBtn = null;
+    this._deleteBtn = null;
+    this._cardTitle = null;
   }
 
   _toggleLike() {
