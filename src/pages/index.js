@@ -44,6 +44,7 @@ const cardsList = new Section({
 // функция создания новой карточки
 function createCard(cardItem) {
   const card = new Card(cardItem, userId, '#element-template', handleImageClick, {
+    // обработчик удаления карточки
     handleDeleteClick: (id) => {
       popupWithDeleteCheck.open();
       popupWithDeleteCheck.handleCardDelete(() => {
@@ -62,6 +63,7 @@ function createCard(cardItem) {
           });
       });
     },
+    // обработчик лайка
     handleSetLike: (id) => {
       api.setLike(id)
         .then((data) => {
@@ -72,6 +74,7 @@ function createCard(cardItem) {
           console.log(err);
         });
     },
+    // обработчик удаления лайка
     handleUnsetLike: (id) => {
       api.unsetLike(id)
         .then((data) => {

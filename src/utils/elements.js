@@ -3,7 +3,7 @@ const addBtn = document.querySelector('.profile__add-button');
 
 const profileName = document.querySelector('.profile__name');
 const profileAvatar = document.querySelector('.profile__avatar');
-const changeAvatarElem = document.querySelector('.profile__avatar_overlay');
+const changeAvatarElem = document.querySelector('.profile__overlay');
 const profileCaption = document.querySelector('.profile__caption');
 
 const nameInput = document.querySelector('.popup__input_type_name');

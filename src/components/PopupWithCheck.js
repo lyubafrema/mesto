@@ -2,8 +2,8 @@ import Popup from "./Popup";
 export default class PopupWithCheck extends Popup {
   constructor({ popupSelector }) {
     super(popupSelector);
-    this._confirmBtn = this._popup.querySelector('.form__save-button_size_s');
-    this._initialBtn = this._confirmBtn.textContent;
+    this._checkBtn = this._popup.querySelector('.popup__check-button');
+    this._initialBtn = this._checkBtn.textContent;
   }
 
   // колбек-функция попапа подтверждения удаления
@@ -12,16 +12,16 @@ export default class PopupWithCheck extends Popup {
   }
 
   setRenderLoading() {
-    this._confirmBtn.textContent = 'Подождите...';
+    this._checkBtn.textContent = 'Подождите...';
   }
 
   unsetRenderLoading() {
-    this._confirmBtn.textContent = this._initialBtn;
+    this._checkBtn.textContent = this._initialBtn;
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._confirmBtn.addEventListener('click', () => {
+    this._checkBtn.addEventListener('click', () => {
       this._handleCardDeleteCallBack();
     });
   }

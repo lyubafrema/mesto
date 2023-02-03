@@ -1,4 +1,4 @@
-.profile__avatar_overlay {
+.profile__overlay {
   display: block;
   position: relative;
   width: 120px;
@@ -7,7 +7,7 @@
   cursor: pointer;
 }
 
-.profile__avatar_overlay::before {
+.profile__overlay::before {
   content: '';
   display: block;
   position: absolute;
@@ -18,6 +18,6 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.profile__avatar_overlay:hover::before {
-  background: rgba(0, 0, 0, 0.8) url(../../../../images/change-avatar-icon.svg) no-repeat center / 26px;
+.profile__overlay:hover::before {
+  background: rgba(0, 0, 0, 0.8) url(../../../images/change-avatar-icon.svg) no-repeat center / 26px;
 }
