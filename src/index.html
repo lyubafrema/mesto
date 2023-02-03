@@ -7,7 +7,7 @@
   <title>Mesto</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Интерактивный сайт, где пользователь может создать свой профиль, добавлять и удалять фотографии в ленту, ставить им лайки.">
+    content="Интерактивный сайт, где пользователь может создать свой профиль, делиться фотографиями и ставить им лайки.">
   <meta name="keywords" content="место, фотографии">
   <meta name="author" content="Ефремова Любовь">
 </head>
@@ -21,10 +21,12 @@
     <main class="content">
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="<%=require('./images/profile-photo.jpg')%>" alt="Фото профиля.">
+          <div class="profile__avatar_overlay">
+            <img class="profile__avatar" src="" alt="Фото профиля.">
+          </div>
           <div class="profile__container">
-            <h1 class="profile__name">Funricarica</h1>
-            <p class="profile__caption">Удивительные места, которые я хочу посетить</p>
+            <h1 class="profile__name"></h1>
+            <p class="profile__caption"></p>
           </div>
           <button type="button" aria-label="Редактировать" class="profile__edit-button"></button>
         </div>
@@ -38,7 +40,7 @@
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_edit-profile">
-      <div class="popup__container">
+      <div class="popup__container popup__container_size_l">
         <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="form form_edit-profile" name="edit-profile" method="get" novalidate>
@@ -48,16 +50,31 @@
             <span class="name-input-error popup__input-error"></span>
           </div>
           <div class="popup__input-container popup__input-container_bottom">
-            <input id="caption-input" type="text" name="caption" value="Удивительные места, которые я хочу посетить" placeholder="О себе"
-              class="popup__input popup__input_type_caption" minlength="2" maxlength="200" required>
+            <input id="caption-input" type="text" name="caption" value="Удивительные места, которые я хочу посетить"
+              placeholder="О себе" class="popup__input popup__input_type_caption" minlength="2" maxlength="200"
+              required>
             <span class="caption-input-error popup__input-error"></span>
           </div>
-          <button type="submit" class="form__save-button">Сохранить</button>
+          <button type="submit" class="form__save-button form__save-button_size_l">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_change-avatar">
+      <div class="popup__container popup__container_size_m">
+        <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="form form_change-avatar" name="change-avatar" method="get" novalidate>
+          <div class="popup__input-container popup__input-container_top">
+            <input id="avatar-input" type="url" name="avatar" placeholder="Ссылка на картинку"
+              class="popup__input popup__input_type_avatar" required>
+            <span class="avatar-input-error popup__input-error"></span>
+          </div>
+          <button type="submit" class="form__save-button form__save-button_size_m">Сохранить</button>
         </form>
       </div>
     </div>
     <div class="popup popup_type_add-card">
-      <div class="popup__container">
+      <div class="popup__container popup__container_size_l">
         <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
         <h3 class="popup__title">Новое место</h3>
         <form class="form form_add-card" name="add-card" method="get" novalidate>
@@ -71,7 +88,7 @@
               class="popup__input popup__input_type_src" required>
             <span class="link-input-error popup__input-error"></span>
           </div>
-          <button type="submit" class="form__save-button">Создать</button>
+          <button type="submit" class="form__save-button form__save-button_size_l">Создать</button>
         </form>
       </div>
     </div>
@@ -82,6 +99,13 @@
         <figcaption class="big-image__title"></figcaption>
       </figure>
     </div>
+    <div class="popup popup_type_delete-card">
+      <div class="popup__container popup__container_size_s">
+        <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button type="submit" class="form__save-button form__save-button_size_s">Да</button>
+      </div>
+    </div>
   </div>
   <template id="element-template">
     <article class="element">
@@ -89,7 +113,10 @@
       <img class="element__image" src=${card.src}>
       <div class="element__container">
         <h2 class="element__title">${card.title}</h2>
-        <button type="button" aria-label="Лайк" class="element__like"></button>
+        <div class="element__like_container">
+          <button type="button" aria-label="Лайк" class="element__like"></button>
+          <span class="element__like_counter"></span>
+        </div>
       </div>
     </article>
   </template>

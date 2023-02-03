@@ -15,8 +15,6 @@
   transition: opacity 0.1s ease-in-out;
   cursor: pointer;
   position: absolute;
-  top: 186px;
-  left: 0;
 }
 
 .form__save-button:hover {
@@ -28,6 +26,5 @@
     font-size: 14px;
     line-height: 17px;
     min-height: 46px;
-    top: 204px;
   }
 }
