@@ -14,14 +14,10 @@
   width: 120px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out;
 }
 
 .profile__avatar_overlay:hover::before {
-  background: url(../../../../images/change-avatar-icon.svg) no-repeat center / 26px;
-}
-
-.profile__avatar_overlay:hover::before {
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8) url(../../../../images/change-avatar-icon.svg) no-repeat center / 26px;
 }
