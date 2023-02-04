@@ -1,7 +1,8 @@
 export default class UserInfo {
-  constructor(nameSelector, captionSelector) {
+  constructor(nameSelector, captionSelector, avatarSelector) {
     this._nameProfileText = document.querySelector(nameSelector);
     this._aboutProfileText = document.querySelector(captionSelector);
+    this._avatarProfile = document.querySelector(avatarSelector);
   }
 
   // нужен чтобы подставить данные профиля при открытии формы
@@ -11,9 +12,10 @@ export default class UserInfo {
       about: this._aboutProfileText.textContent,
     }
   }
-  // добавляем новые данные профиля на страницу
-  setUserInfo({ name, about }) {
+  // добавляем данные профиля на страницу
+  setUserInfo({ name, about, avatar }) {
     this._nameProfileText.textContent = name;
     this._aboutProfileText.textContent = about;
+    this._avatarProfile.src = avatar;
   }
 }

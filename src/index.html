@@ -19,22 +19,25 @@
         alt="Надпись: Mesto Russia, логотип проекта.">
     </header>
     <main class="content">
-      <section class="profile">
-        <div class="profile__info">
-          <div class="profile__overlay">
-            <img class="profile__avatar" alt="Фото профиля.">
+      <div class="spinner"></div>
+      <div class="container">
+        <section class="profile">
+          <div class="profile__info">
+            <div class="profile__overlay">
+              <img class="profile__avatar" alt="Фото профиля.">
+            </div>
+            <div class="profile__container">
+              <h1 class="profile__name"></h1>
+              <p class="profile__caption"></p>
+            </div>
+            <button type="button" aria-label="Редактировать" class="profile__edit-button"></button>
           </div>
-          <div class="profile__container">
-            <h1 class="profile__name"></h1>
-            <p class="profile__caption"></p>
-          </div>
-          <button type="button" aria-label="Редактировать" class="profile__edit-button"></button>
-        </div>
-        <button type="button" aria-label="Добавить" class="profile__add-button"></button>
-      </section>
-      <section class="elements">
+          <button type="button" aria-label="Добавить" class="profile__add-button"></button>
+        </section>
+        <section class="elements">
 
-      </section>
+        </section>
+      </div>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
@@ -45,14 +48,13 @@
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="form form_edit-profile" name="edit-profile" method="get" novalidate>
           <div class="popup__input-container popup__input-container_top">
-            <input id="name-input" type="text" name="name" value="Funricarica" placeholder="Имя"
-              class="popup__input popup__input_type_name" minlength="2" maxlength="40" required>
+            <input id="name-input" type="text" name="name" placeholder="Имя" class="popup__input popup__input_type_name"
+              minlength="2" maxlength="40" required>
             <span class="name-input-error popup__input-error"></span>
           </div>
           <div class="popup__input-container popup__input-container_bottom">
-            <input id="caption-input" type="text" name="caption" value="Удивительные места, которые я хочу посетить"
-              placeholder="О себе" class="popup__input popup__input_type_caption" minlength="2" maxlength="200"
-              required>
+            <input id="caption-input" type="text" name="about" placeholder="О себе"
+              class="popup__input popup__input_type_caption" minlength="2" maxlength="200" required>
             <span class="caption-input-error popup__input-error"></span>
           </div>
           <button type="submit" class="form__save-button form__save-button_size_l">Сохранить</button>

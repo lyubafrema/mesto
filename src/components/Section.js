@@ -6,10 +6,8 @@ export default class Section {
 
   // измененный метод для рендеринга карточек, теперь он может принимать объект из промиса
   renderItems(initialCards) {
-    initialCards.forEach(cards => {
-      const { name, link, likes, _id, owner } = cards;
-      const cardsObj = { name, link, likes, _id, owner };
-      this._renderer(cardsObj);
+    initialCards.forEach((cards) => {
+      this._renderer(cards);
     })
   }
 

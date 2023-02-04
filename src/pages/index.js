@@ -1,3 +1,9 @@
+/* Спасибо большое за ревью! Разобралась с моментами, которые не знала как правильно сделать.
+Постаралась еще сократить дублирование кода где получилось.
+Еще я добавила прелоадер, пока ждем ответа от сервера, не уверена, можно ли вынести функцию,
+которая его включает, в utils, поэтому оставила здесь) */
+
+
 import './index.css';
 import { configValidation } from '../utils/data.js';
 import { configApi } from '../utils/data.js';
@@ -8,7 +14,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
-import { editBtn, addBtn, profileName, profileAvatar, changeAvatarElem, profileCaption, nameInput, captionInput, formEditElem, formChangeAvatar, formAddElem } from '../utils/elements.js';
+import { editBtn, addBtn, changeAvatarElem, spinner, container } from '../utils/elements.js';
 import PopupWithCheck from '../components/PopupWithCheck';
 
 // инстанс класса api
@@ -17,21 +23,35 @@ const api = new Api(configApi);
 //переменная для хранения id пользователя
 let userId;
 
+// функция для включения/выключения спиннера при загрузке страницы
+function renderLoading(isLoading) {
+  if (isLoading) {
+    spinner.classList.add('spinner_visible');
+    container.classList.add('container_hidden');
+  } else {
+    spinner.classList.remove('spinner_visible');
+    container.classList.remove('container_hidden');
+  }
+}
+
+renderLoading(true);
+
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([info, cards]) => {
-    profileName.textContent = info.name;
-    profileCaption.textContent = info.about;
-    profileAvatar.src = info.avatar;
+    profileInputValues.setUserInfo(info);
     userId = info._id;
     const reverseCards = cards.reverse();
     cardsList.renderItems(reverseCards);
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(() => {
+    renderLoading(false);
+  })
 
 // инстанс класса UserInfo
-const profileInputValues = new UserInfo('.profile__name', '.profile__caption');
+const profileInputValues = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 
 // инстанс класса Section
 const cardsList = new Section({
@@ -48,18 +68,9 @@ function createCard(cardItem) {
     handleDeleteClick: (id) => {
       popupWithDeleteCheck.open();
       popupWithDeleteCheck.handleCardDelete(() => {
-        popupWithDeleteCheck.setRenderLoading();
-        api.deleteCard(id)
+        return api.deleteCard(id)
           .then(() => {
             card.removeCard();
-            popupWithDeleteCheck.close();
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            popupWithDeleteCheck.close();
-            popupWithDeleteCheck.unsetRenderLoading();
           });
       });
     },
@@ -102,17 +113,9 @@ popupWithImage.setEventListeners();
 const popupWithEditForm = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleFormSubmit: (inputValues) => {
-    popupWithEditForm.setRenderLoading();
-    api.editProfileInfo({ name: inputValues.name, about: inputValues.caption })
+    return api.editProfileInfo({ name: inputValues.name, about: inputValues.about })
       .then((data) => {
         profileInputValues.setUserInfo(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        popupWithEditForm.close();
-        popupWithEditForm.unsetRenderLoading();
       });
   }
 });
@@ -122,17 +125,9 @@ popupWithEditForm.setEventListeners();
 const popupWithAvatarForm = new PopupWithForm({
   popupSelector: '.popup_type_change-avatar',
   handleFormSubmit: (inputValues) => {
-    popupWithAvatarForm.setRenderLoading();
-    api.changeAvatar({ avatar: inputValues.avatar })
+    return api.changeAvatar({ avatar: inputValues.avatar })
       .then((data) => {
-        profileAvatar.src = data.avatar;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        popupWithAvatarForm.close();
-        popupWithAvatarForm.unsetRenderLoading();
+        profileInputValues.setUserInfo(data);
       });
   }
 });
@@ -142,18 +137,10 @@ popupWithAvatarForm.setEventListeners();
 const popupWithAddForm = new PopupWithForm({
   popupSelector: '.popup_type_add-card',
   handleFormSubmit: (inputValues) => {
-    popupWithAddForm.setRenderLoading();
-    api.addNewCard({ name: inputValues.title, link: inputValues.link, alt: inputValues.title })
+    return api.addNewCard({ name: inputValues.title, link: inputValues.link, alt: inputValues.title })
       .then((data) => {
         const card = createCard(data);
         cardsList.addItem(card);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        popupWithAddForm.close();
-        popupWithAddForm.unsetRenderLoading();
       });
   }
 });
@@ -167,31 +154,34 @@ popupWithDeleteCheck.setEventListeners();
 
 // слушатель на кнопку открытия попапа редактирования профиля
 editBtn.addEventListener('click', () => {
-  validationFormEditCard.resetValidation();
+  formValidators['edit-profile'].resetValidation();
   popupWithEditForm.open();
-  const info = profileInputValues.getUserInfo();
-  nameInput.value = info.name;
-  captionInput.value = info.about;
+  popupWithEditForm.setInputValues(profileInputValues.getUserInfo());
 });
 
 // слушатель на аватар для открытия попапа его изменения
 changeAvatarElem.addEventListener('click', () => {
-  validationFormChangeAvatar.resetValidation();
+  formValidators['change-avatar'].resetValidation();
   popupWithAvatarForm.open();
 });
 
 // слушатель на кнопку открытия попапа добавления новой картинки
 addBtn.addEventListener('click', () => {
-  validationFormAddCard.resetValidation();
+  formValidators['add-card'].resetValidation();
   popupWithAddForm.open();
 });
 
+// объект для экземпляров валидаторов форм
+const formValidators = {}
+
 // включение валидации
-const validationFormAddCard = new FormValidator(configValidation, formAddElem);
-validationFormAddCard.enableValidation();
-
-const validationFormChangeAvatar = new FormValidator(configValidation, formChangeAvatar);
-validationFormChangeAvatar.enableValidation();
-
-const validationFormEditCard = new FormValidator(configValidation, formEditElem);
-validationFormEditCard.enableValidation();
+const enableValidation = (configValidation) => {
+  const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(configValidation, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+}
+enableValidation(configValidation);
